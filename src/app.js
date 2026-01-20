@@ -1,9 +1,8 @@
-import {BinarySearchTree} from './binarySearchTree.js'
+import { BinarySearchTreeLesson } from './lessons/binarySearchTreeLesson.js';
 
+console.log(1);
 
-console.log(1)
-
-const myTree = new BinarySearchTree();
+const myTree = new BinarySearchTreeLesson();
 
 // Inserting values
 myTree.insert(54); // Root
@@ -16,3 +15,6 @@ myTree.insert(85); // Right of 72
 
 console.log(myTree);
 
+console.log(myTree.find(85));
+console.log(myTree.find(83));
+console.log(myTree.find(24));

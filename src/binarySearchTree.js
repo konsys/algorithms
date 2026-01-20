@@ -20,7 +20,9 @@ export class BinarySearchTree {
     }
     let current = this.root;
     while (true) {
-      if (value === current.value) return undefined; // No duplicates
+      if (value === current.value) {
+        return undefined;
+      }
       if (value < current.value) {
         if (!current.left) {
           current.left = newNode;

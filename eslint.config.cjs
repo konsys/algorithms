@@ -7,6 +7,7 @@ export default [
   {
     plugins: { prettier: prettierPlugin },
     rules: {
+      curly: ['error', 'all'],
       'prettier/prettier': 'error',
       'no-unused-vars': 'warn',
       'no-console': 'off',

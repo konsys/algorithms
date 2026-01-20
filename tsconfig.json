@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    /* bundler требует, чтобы module был ESNext или Preserve */
+    "moduleResolution": "bundler",
+    /* Позволяет импортировать .ts файлы без указания расширения */
+    "allowImportingTsExtensions": true,
+    /* Нужно для bundler, так как он не генерирует JS файлы напрямую */
+    "noEmit": true,
+
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": [
+      "jest",
+      "node"
+    ],
+    "outDir": "./dist"
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
