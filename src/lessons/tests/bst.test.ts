@@ -24,6 +24,16 @@ describe('BinarySearchTree', () => {
     expect(result).toBeUndefined();
   });
 
+  test('должен корректно вставлять значения', () => {
+    bst.insert(10);
+    bst.insert(5);
+    bst.insert(15);
+
+    expect(bst.root!.value).toBe(10);
+    expect(bst.root!.left!.value).toBe(5); // Убран "!" в начале
+    expect(bst.root!.right!.value).toBe(15);
+  });
+
   test('метод find должен находить существующие узлы', () => {
     bst.insert(10);
     bst.insert(5);
@@ -36,7 +46,7 @@ describe('BinarySearchTree', () => {
 
   test('метод find должен возвращать false для отсутствующих значений', () => {
     bst.insert(10);
-    expect(bst.find(99)).toBe(false);
+    expect(bst.find(99)).toBe(null);
   });
 
   // test('BFS (обход в ширину) должен возвращать данные по уровням', () => {

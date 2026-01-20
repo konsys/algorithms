@@ -1,5 +1,5 @@
 export class BSTNode<T> {
-  value: T | null;
+  value: T;
   left: BSTNode<T> | null = null;
   right: BSTNode<T> | null = null;
 
@@ -28,7 +28,7 @@ export class BinarySearchTreeLesson<T> {
       if (value === current.value) {
         return undefined;
       }
-      if (current.value && value < current.value) {
+      if (value < current.value) {
         if (!current.left) {
           current.left = newNode;
           return this;
@@ -44,20 +44,23 @@ export class BinarySearchTreeLesson<T> {
     }
   }
 
-  find(value: T) {
-    if (!this.root) {
-      return null;
-    }
+  find(value: T): BSTNode<T> | null {
+    if (!this.root) return null;
+
     let current: BSTNode<T> | null = this.root;
+
     while (current) {
       if (value === current.value) {
-        return current;
+        return current; // Нашли узел
       }
-      if (current.value && value > current.value) {
-        current = current.right;
-      } else if (current.value) {
-        current = current.right;
+
+      if (value < current.value) {
+        current = current.left; // Идем влево, если искомое МЕНЬШЕ
+      } else {
+        current = current.right; // Идем вправо, если искомое БОЛЬШЕ
       }
     }
+
+    return null; // Если прошли всё дерево и не нашли
   }
 }
