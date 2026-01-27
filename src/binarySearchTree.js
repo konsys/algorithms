@@ -161,68 +161,82 @@ export class BinarySearchTree {
    * @param {*} value - Значение, которое нужно удалить.
    */
   deleteNode(value) {
+    // Если дерево пустое (корня нет), удалять нечего — возвращаем false
     if (!this.root) return false;
 
-    let current = this.root;
-    let parent = null;
+    let current = this.root; // Узел, который мы проверяем сейчас
+    let parent = null; // Ссылка на родителя текущего узла
 
-    // 1. Поиск удаляемого узла и его родителя
+    // --- ЭТАП 1: Поиск узла, который нужно удалить ---
+    // Цикл идет, пока не найдем узел или не дойдем до конца ветки
     while (current && current.value !== value) {
-      parent = current;
+      parent = current; // Запоминаем текущий узел как родителя перед шагом глубже
+
       if (value < current.value) {
-        current = current.left;
+        current = current.left; // Если искомое меньше — идем влево
       } else {
-        current = current.right;
+        current = current.right; // Если больше — идем вправо
       }
     }
 
-    // Если узел не найден
+    // Если прошли всё дерево и не нашли значение (current стал null)
     if (!current) return false;
 
-    // 2. Сценарий 1: У узла нет детей (листовой узел)
+    // --- ЭТАП 2: Удаление найденного узла ---
+
+    // СЦЕНАРИЙ 1: У узла НЕТ ДЕТЕЙ (он "листовой")
     if (!current.left && !current.right) {
       if (current === this.root) {
-        this.root = null;
+        this.root = null; // Если это был единственный узел в дереве (корень)
       } else if (parent.left === current) {
-        parent.left = null;
+        parent.left = null; // Обнуляем ссылку у родителя слева
       } else {
-        parent.right = null;
+        parent.right = null; // Обнуляем ссылку у родителя справа
       }
     }
-    // 3. Сценарий 2: У узла только ОДИН ребенок
+
+    // СЦЕНАРИЙ 2: У узла ТОЛЬКО ОДИН ребенок
     else if (!current.left || !current.right) {
+      // Выбираем, какой именно ребенок существует (левый или правый)
       let child = current.left ? current.left : current.right;
 
       if (current === this.root) {
-        this.root = child;
+        this.root = child; // Если удаляем корень, его ребенок становится новым корнем
       } else if (parent.left === current) {
-        parent.left = child;
+        parent.left = child; // Родитель удаляемого узла теперь указывает на "внука" слева
       } else {
-        parent.right = child;
+        parent.right = child; // Родитель удаляемого узла теперь указывает на "внука" справа
       }
     }
-    // 4. Сценарий 3: У узла ДВА ребенка
+
+    // СЦЕНАРИЙ 3: У узла ДВА РЕБЕНКА (самый сложный случай)
     else {
-      // Находим преемника (минимальный узел в правом поддереве)
+      // Чтобы сохранить порядок в дереве, нам нужно найти "преемника" —
+      // это самый маленький узел в ПРАВОМ поддереве.
       let successor = current.right;
       let successorParent = current;
 
+      // Идем максимально влево в правом поддереве
       while (successor.left) {
         successorParent = successor;
         successor = successor.left;
       }
 
-      // Заменяем значение удаляемого узла значением преемника
+      // Шаг "хитрости": мы не удаляем сам узел, а просто копируем
+      // значение преемника в наш текущий узел.
       current.value = successor.value;
 
-      // Удаляем узел-преемник (у него может быть максимум один правый ребенок)
+      // Теперь нужно удалить оригинал преемника.
+      // У преемника точно нет левого ребенка, но может быть правый.
       if (successorParent.left === successor) {
+        // Если преемник был левым ребенком, отдаем его правую ветку родителю влево
         successorParent.left = successor.right;
       } else {
+        // Случай, если правое поддерево состояло всего из одного узла
         successorParent.right = successor.right;
       }
     }
 
-    return true;
+    return true; // Узел успешно найден и удален
   }
 }

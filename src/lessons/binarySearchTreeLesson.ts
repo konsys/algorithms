@@ -204,5 +204,12 @@ export class BinarySearchTreeLesson<T> {
 
     let current = this.root;
     let parent = null;
+
+    while (current && current.value !== value) {
+      parent = current;
+
+      if (value < current.value) {
+      }
+    }
   }
 }
