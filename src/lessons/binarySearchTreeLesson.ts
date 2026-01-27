@@ -202,13 +202,41 @@ export class BinarySearchTreeLesson<T> {
       return false;
     }
 
-    let current = this.root;
+    let current: BSTNode<T> | null = this.root;
     let parent = null;
 
+    // --- ЭТАП 1: Поиск узла, который нужно удалить ---
     while (current && current.value !== value) {
       parent = current;
 
       if (value < current.value) {
+        current = current.left;
+      } else {
+        current = current.right;
+      }
+    }
+    if (!current) {
+      return false;
+    }
+    // --- ЭТАП 2: Удаление найденного узла ---
+
+    // СЦЕНАРИЙ 1: У узла НЕТ ДЕТЕЙ (он "листовой")
+    if (!current.left && !current.right) {
+      if (current === this.root) {
+        this.root = null;
+      } else if (parent?.left === current) {
+        parent.left = null;
+      } else {
+        parent!.right = null;
+      }
+    }
+
+    // СЦЕНАРИЙ 2: У узла ТОЛЬКО ОДИН ребенок
+    else if (!current.left || !current.right) {
+      let child = current.left ? current.left : current.right;
+
+      if (current === this.root) {
+        this.root = child;
       }
     }
   }
