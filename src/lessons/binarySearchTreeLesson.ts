@@ -10,7 +10,7 @@ export class BSTNode<T> {
   }
 }
 
-export class BinarySearchTreeLesson<T> {
+export class BinarySearchTreeLesson<T extends number> {
   root: BSTNode<T> | null;
 
   constructor() {
@@ -309,5 +309,35 @@ export class BinarySearchTreeLesson<T> {
       .join('\n');
 
     console.log('\n' + output);
+  }
+
+  /**
+   * Полная пересборка дерева для идеальной балансировки
+   */
+  rebalance() {
+    const nodes: T[] = [];
+    this._inOrderTraversal(this.root, nodes);
+
+    this.root = this._buildBalancedTree(nodes, 0 as T, (nodes.length - 1) as T) ?? null;
+  }
+
+  _inOrderTraversal(node: BSTNode<T> | null, array: T[]) {
+    if (node) {
+      this._inOrderTraversal(node.left, array);
+      array.push(node.value);
+      this._inOrderTraversal(node.right, array);
+    }
+  }
+
+  _buildBalancedTree(elements: T[], start: T, end: T) {
+    if (start > end) {
+      return null;
+    }
+
+    const mid = Math.floor((start + end) / 2);
+    const newNode = { value: elements[mid], left: null, right: null };
+
+    newNode.left = this._buildBalancedTree(elements, start, (mid - 1) as T) ?? null;
+    newNode.right = this._buildBalancedTree(elements, (mid + 1) as T, end) ?? null;
   }
 }

@@ -285,5 +285,3 @@ export class BinarySearchTree {
     return newNode;
   }
 }
-
-0;
