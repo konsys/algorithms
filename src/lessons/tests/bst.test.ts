@@ -8,6 +8,19 @@ describe('BinarySearchTree', () => {
     bst = new BinarySearchTreeLesson<number>();
   });
 
+  let bstd: BinarySearchTreeLesson<number>;
+
+  beforeEach(() => {
+    bstd = new BinarySearchTreeLesson<number>();
+    // Создаем базовое дерево:
+    //       10
+    //      /  \
+    //     5    15
+    //    / \   / \
+    //   3   7 12  18
+    [10, 5, 15, 3, 7, 12, 18].forEach((val) => bstd.insert(val));
+  });
+
   test('insert должен корректно вставлять значения', () => {
     bst.insert(10);
     bst.insert(5);
@@ -186,44 +199,117 @@ describe('BinarySearchTree', () => {
     expect(bst.dfsPostOrderIterative()).toEqual([]);
   });
 
-  test('deleteNode должен удалять листовой узел (без детей)', () => {
-    const result = bst.deleteNode(2);
+  test('delete должен вернуть false, если узел не найден', () => {
+    expect(bstd.deleteNode(100)).toBe(false);
+  });
+
+  test('delete СЦЕНАРИЙ 1: Удаление листа (узла без детей)', () => {
+    /*
+         10
+        /  \
+       5    15
+      /  \
+     3    7
+   */
+    // Наполняем дерево
+    [10, 5, 15, 3, 7].forEach((v) => bst.insert(v));
+
+    // Удаляем лист (3)
+    const result = bst.deleteNode(3);
+
+    /*
+        10
+       /  \
+      5    15
+        \
+         7
+  */
+
     expect(result).toBe(true);
-    expect(bst.root!.left!.left).toBeNull(); // Узел 5 больше не имеет левого ребенка 2
+
+    // Проверяем родителя (5): его левый ребенок должен стать null
+    const node5 = bst.find(5);
+    expect(node5).not.toBeNull();
+    expect(node5!.left).toBeNull();
+
+    // Проверяем, что самого узла больше нет в дереве
+    expect(bst.find(3)).toBeNull();
   });
 
-  test('deleteNode должен удалять узел с одним ребенком', () => {
-    const result = bst.deleteNode(15);
-    expect(result).toBe(true);
-    // Теперь на месте 15 должен быть его ребенок 20
-    expect(bst.root!.right!.value).toBe(20);
+  test('delete СЦЕНАРИЙ 2: Удаление узла с одним ребенком', () => {
+    const bst1 = new BinarySearchTreeLesson<number>();
+    [10, 5, 15, 3, 7, 12, 18].forEach((val) => bst1.insert(val));
+    /*
+           10
+        /      \
+       5        15
+      /  \     /   \
+     3    7   12    18
+
+     */
+    bst1.deleteNode(3); // Сначала сделаем 5 узлом с одним ребенком (7)
+    expect(bst1.deleteNode(5)).toBe(true);
+    expect(bst1.root?.left?.value).toBe(7);
   });
 
-  test('deleteNode должен удалять узел с двумя детьми (сложный случай)', () => {
-    const result = bst.deleteNode(5);
-    expect(result).toBe(true);
-    // На место 5 должен встать преемник (минимальный из правого поддерева — 7)
-    expect(bst.root!.left!.value).toBe(7);
-    // У 7 не должно остаться дубликата снизу
-    expect(bst.root!.left!.right).toBeNull();
+  test('delete СЦЕНАРИЙ 3: Удаление узла с двумя детьми (через преемника)', () => {
+    const bst1 = new BinarySearchTreeLesson<number>();
+    [10, 5, 15, 3, 7, 12, 18].forEach((val) => bst1.insert(val));
+
+    bst1.printTreeIterative();
+    /*
+                     10
+                  /       \
+              5               15
+            /   \           /   \
+          3       7       12       18
+
+
+    */
+
+    expect(bst1.deleteNode(15)).toBe(true);
+    // Преемник для 15 в этом дереве — 18 (или 12, если идти вглубь)
+    // В вашем коде это successor = current.right, затем вглубь влево.
+    // Для 15 это будет 18 (если у 18 нет левого ребенка)
+    expect(bst1.root?.right?.value).toBe(18);
+    expect(bst1.root?.right?.left?.value).toBe(12);
   });
 
-  test('deleteNode должен корректно удалять корень дерева', () => {
-    bst.deleteNode(10);
-    // Новым корнем должен стать преемник (минимальный справа — 15)
-    expect(bst.root!.value).toBe(15);
-    expect(bst.root!.right!.value).toBe(20);
+  test('delete СЦЕНАРИЙ 3: Удаление узла с двумя детьми (через преемника)', () => {
+    const bst1 = new BinarySearchTreeLesson<number>();
+    [10, 5, 15, 3, 7, 12, 18].forEach((val) => bst1.insert(val));
+
+    bst1.printTreeIterative();
+    /*
+                     10
+                  /       \
+              5               15
+            /   \           /   \
+          3       7       12       18
+
+
+    */
+
+    expect(bst1.deleteNode(10)).toBe(true);
+
+    // В вашем коде это successor = current.right, затем вглубь влево.
+    // Для 10 это будет 12 (если у 18 нет левого ребенка)
+    expect(bst1.root?.right?.value).toBe(15);
+    expect(bst1.root?.right?.right?.value).toBe(18);
   });
 
-  test('deleteNode должен возвращать false, если узел не найден', () => {
-    const result = bst.deleteNode(999);
-    expect(result).toBe(false);
+  test('delete Удаление корня дерева', () => {
+    const bst1 = new BinarySearchTreeLesson<number>();
+    [10, 5, 15, 3, 7, 12, 18].forEach((val) => bst1.insert(val));
+
+    expect(bstd.deleteNode(10)).toBe(true);
+    expect(bstd.root?.value).toBe(12); // 12 станет новым корнем (преемник 10)
   });
 
-  test('deleteNode должен обрабатывать удаление последнего узла в дереве', () => {
-    const singleTree = new BinarySearchTreeLesson();
-    singleTree.insert(100);
-    singleTree.deleteNode(100);
-    expect(singleTree.root).toBeNull();
+  test('delete Удаление последнего узла (очистка дерева)', () => {
+    const singleBst = new BinarySearchTreeLesson<number>();
+    singleBst.insert(50);
+    expect(singleBst.deleteNode(50)).toBe(true);
+    expect(singleBst.root).toBeNull();
   });
 });

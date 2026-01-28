@@ -265,4 +265,49 @@ export class BinarySearchTreeLesson<T> {
     }
     return true;
   }
+
+  printTreeIterative() {
+    if (!this.root) return console.log('Дерево пустое');
+
+    const getHeight = (node: BSTNode<T> | null): number =>
+      node ? 1 + Math.max(getHeight(node.left), getHeight(node.right)) : 0;
+
+    const h = getHeight(this.root);
+    const res: string[][] = Array.from({ length: h * 2 }, () => []);
+    const width = Math.pow(2, h - 1) * 4;
+
+    const fill = (node: BSTNode<T> | null, r: number, c: number, w: number) => {
+      if (!node) return;
+
+      // Записываем значение узла
+      res[r][c] = String(node.value);
+
+      if (node.left) {
+        // Рисуем линию влево
+        res[r + 1][c - Math.floor(w / 4)] = '/';
+        fill(node.left, r + 2, c - Math.floor(w / 2), Math.floor(w / 2));
+      }
+      if (node.right) {
+        // Рисуем линию вправо
+        res[r + 1][c + Math.floor(w / 4)] = '\\';
+        fill(node.right, r + 2, c + Math.floor(w / 2), Math.floor(w / 2));
+      }
+    };
+
+    fill(this.root, 0, width, width);
+
+    // Сборка массива в строку
+    const output = res
+      .map((row) => {
+        let line = '';
+        for (let i = 0; i <= width * 2; i++) {
+          line += row[i] || ' ';
+        }
+        return line.trimEnd();
+      })
+      .filter((line) => line.length > 0)
+      .join('\n');
+
+    console.log('\n' + output);
+  }
 }
