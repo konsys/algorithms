@@ -5,6 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
+    "start:benchmark": "node --max-old-space-size=4096 --loader ts-node/esm src/lessons/benchmark.ts",
     "dev": "nodemon src/app.js",
     "test": "jest",
     "test:watch": "jest --watch  --verbose false"
@@ -18,7 +19,7 @@
     "@babel/preset-typescript": "^7.28.5",
     "@eslint/js": "^9.39.2",
     "@types/jest": "^30.0.0",
-    "@types/node": "^25.0.9",
+    "@types/node": "^25.0.10",
     "babel-jest": "^30.2.0",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
@@ -26,6 +27,7 @@
     "jest": "^30.2.0",
     "prettier": "^3.8.0",
     "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
 }
