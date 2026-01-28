@@ -237,7 +237,32 @@ export class BinarySearchTreeLesson<T> {
 
       if (current === this.root) {
         this.root = child;
+      } else if (parent?.left === current) {
+        parent.left = child;
+      } else {
+        parent!.right = child;
       }
     }
+
+    // СЦЕНАРИЙ 3: У узла ДВА РЕБЕНКА (самый сложный случай)
+    else {
+      let successor = current.right;
+      let successorParent = current;
+
+      while (successor.left) {
+        successorParent = successor;
+        successor = successor.left;
+      }
+      // Шаг "хитрости": мы не удаляем сам узел, а просто копируем
+      // значение преемника в наш текущий узел.
+      current.value = successor.value;
+
+      if (successorParent.left === successor) {
+        successorParent.left = successor.right;
+      } else {
+        successorParent.right = successor.right;
+      }
+    }
+    return true;
   }
 }

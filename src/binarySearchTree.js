@@ -209,22 +209,34 @@ export class BinarySearchTree {
       }
     }
 
+    //             100
+    //        /              \
+    //       50                150
+    //     /    \          /         \
+    //    25      75      125         175
+    //   /  \    /  \    /    \       /  \
+    //  10  35  60  80  120    130   160  200
+    //                     \
+    //                     123
+    // current == 100
+
     // СЦЕНАРИЙ 3: У узла ДВА РЕБЕНКА (самый сложный случай)
     else {
       // Чтобы сохранить порядок в дереве, нам нужно найти "преемника" —
       // это самый маленький узел в ПРАВОМ поддереве.
-      let successor = current.right;
-      let successorParent = current;
+      let successor = current.right; // 150
+
+      let successorParent = current; // 100
 
       // Идем максимально влево в правом поддереве
       while (successor.left) {
-        successorParent = successor;
-        successor = successor.left;
+        successorParent = successor; // 150 125
+        successor = successor.left; // 125 120
       }
 
       // Шаг "хитрости": мы не удаляем сам узел, а просто копируем
       // значение преемника в наш текущий узел.
-      current.value = successor.value;
+      current.value = successor.value; // 100.value = 120.value
 
       // Теперь нужно удалить оригинал преемника.
       // У преемника точно нет левого ребенка, но может быть правый.
@@ -239,4 +251,39 @@ export class BinarySearchTree {
 
     return true; // Узел успешно найден и удален
   }
+
+  /**
+   * Полная пересборка дерева для идеальной балансировки
+   */
+  rebalance() {
+    const nodes = [];
+    // 1. Выгружаем все значения в отсортированный массив (In-order traversal)
+    this._inOrderTraversal(this.root, nodes);
+    // 2. Строим новое дерево из отсортированного массива
+    this.root = this._buildBalancedTree(nodes, 0, nodes.length - 1);
+  }
+
+  _inOrderTraversal(node, array) {
+    if (node) {
+      this._inOrderTraversal(node.left, array);
+      array.push(node.value);
+      this._inOrderTraversal(node.right, array);
+    }
+  }
+
+  _buildBalancedTree(elements, start, end) {
+    if (start > end) return null;
+
+    // Берем средний элемент — он станет корнем поддерева
+    const mid = Math.floor((start + end) / 2);
+    const newNode = { value: elements[mid], left: null, right: null };
+
+    // Рекурсивно собираем левую и правую части
+    newNode.left = this._buildBalancedTree(elements, start, mid - 1);
+    newNode.right = this._buildBalancedTree(elements, mid + 1, end);
+
+    return newNode;
+  }
 }
+
+0;

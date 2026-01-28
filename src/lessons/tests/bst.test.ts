@@ -185,4 +185,45 @@ describe('BinarySearchTree', () => {
     expect(bst.dfsPreOrderIterative()).toEqual([]);
     expect(bst.dfsPostOrderIterative()).toEqual([]);
   });
+
+  test('deleteNode должен удалять листовой узел (без детей)', () => {
+    const result = bst.deleteNode(2);
+    expect(result).toBe(true);
+    expect(bst.root!.left!.left).toBeNull(); // Узел 5 больше не имеет левого ребенка 2
+  });
+
+  test('deleteNode должен удалять узел с одним ребенком', () => {
+    const result = bst.deleteNode(15);
+    expect(result).toBe(true);
+    // Теперь на месте 15 должен быть его ребенок 20
+    expect(bst.root!.right!.value).toBe(20);
+  });
+
+  test('deleteNode должен удалять узел с двумя детьми (сложный случай)', () => {
+    const result = bst.deleteNode(5);
+    expect(result).toBe(true);
+    // На место 5 должен встать преемник (минимальный из правого поддерева — 7)
+    expect(bst.root!.left!.value).toBe(7);
+    // У 7 не должно остаться дубликата снизу
+    expect(bst.root!.left!.right).toBeNull();
+  });
+
+  test('deleteNode должен корректно удалять корень дерева', () => {
+    bst.deleteNode(10);
+    // Новым корнем должен стать преемник (минимальный справа — 15)
+    expect(bst.root!.value).toBe(15);
+    expect(bst.root!.right!.value).toBe(20);
+  });
+
+  test('deleteNode должен возвращать false, если узел не найден', () => {
+    const result = bst.deleteNode(999);
+    expect(result).toBe(false);
+  });
+
+  test('deleteNode должен обрабатывать удаление последнего узла в дереве', () => {
+    const singleTree = new BinarySearchTreeLesson();
+    singleTree.insert(100);
+    singleTree.deleteNode(100);
+    expect(singleTree.root).toBeNull();
+  });
 });
