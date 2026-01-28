@@ -71,8 +71,75 @@ function quickSort(arr: number[], left: number, right: number) {
   quickSort(arr, i, right);
 }
 
+class AVLTree<T> extends BinarySearchTreeLesson<T> {
+  // Рекурсивная вставка с балансировкой
+  avlInsert(node: BSTNode<T> | null, value: T): BSTNode<T> {
+    if (!node) return new BSTNode(value);
+
+    if (value < node.value) {
+      node.left = this.avlInsert(node.left, value);
+    } else if (value > node.value) {
+      node.right = this.avlInsert(node.right, value);
+    } else return node;
+
+    const balance = this.getBalance(node);
+
+    // Left Left
+    if (balance > 1 && value < node.left!.value) return this.rotateRight(node);
+    // Right Right
+    if (balance < -1 && value > node.right!.value) return this.rotateLeft(node);
+    // Left Right
+    if (balance > 1 && value > node.left!.value) {
+      node.left = this.rotateLeft(node.left!);
+      return this.rotateRight(node);
+    }
+    // Right Left
+    if (balance < -1 && value < node.right!.value) {
+      node.right = this.rotateRight(node.right!);
+      return this.rotateLeft(node);
+    }
+
+    return node;
+  }
+
+  insert(value: T) {
+    this.root = this.avlInsert(this.root, value);
+  }
+
+  // Получаем высоту узла
+  private height(node: BSTNode<T> | null): number {
+    if (!node) return 0;
+    let leftH = this.height(node.left);
+    let rightH = this.height(node.right);
+    return Math.max(leftH, rightH) + 1;
+  }
+
+  // Баланс: разница высот
+  private getBalance(node: BSTNode<T> | null): number {
+    return node ? this.height(node.left) - this.height(node.right) : 0;
+  }
+
+  // Правое вращение
+  private rotateRight(y: BSTNode<T>): BSTNode<T> {
+    let x = y.left!;
+    let T2 = x.right;
+    x.right = y;
+    y.left = T2;
+    return x;
+  }
+
+  // Левое вращение
+  private rotateLeft(x: BSTNode<T>): BSTNode<T> {
+    let y = x.right!;
+    let T2 = y.left;
+    y.left = x;
+    x.right = T2;
+    return y;
+  }
+}
+
 async function run() {
-  const count = 10000000;
+  const count = 100;
   console.log(`\n🚀 Запуск теста на ${count.toLocaleString()} элементов...`);
   const data = Array.from({ length: count }, () => Math.floor(Math.random() * count));
 
@@ -94,6 +161,13 @@ async function run() {
   for (let v of data) bst.insert(v);
   bst.dfsInOrder();
   console.log(`✅ BST Tree:    ${(performance.now() - s3).toFixed(2)}ms`);
+
+  // 4. AVL
+  const avl = new AVLTree<number>();
+  const s4 = performance.now();
+  for (let v of data) avl.insert(v);
+  avl.dfsInOrder();
+  console.log(`✅ AVL Tree:    ${(performance.now() - s4).toFixed(2)}ms`);
 }
 
 run();
