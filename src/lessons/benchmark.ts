@@ -139,7 +139,7 @@ class AVLTree<T> extends BinarySearchTreeLesson<T> {
 }
 
 async function run() {
-  const count = 100;
+  const count = 100000;
   console.log(`\n🚀 Запуск теста на ${count.toLocaleString()} элементов...`);
   const data = Array.from({ length: count }, () => Math.floor(Math.random() * count));
 
