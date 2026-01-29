@@ -2,13 +2,12 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    /* bundler требует, чтобы module был ESNext или Preserve */
-    "moduleResolution": "bundler",
-    /* Позволяет импортировать .ts файлы без указания расширения */
-    "allowImportingTsExtensions": true,
-    /* Нужно для bundler, так как он не генерирует JS файлы напрямую */
-    "noEmit": true,
-
+    "moduleResolution": "Bundler",
+    /* 1. ОТКЛЮЧИТЕ ЭТО: ts-node не умеет работать с этой опцией */
+    "allowImportingTsExtensions": false,
+    /* 2. ОТКЛЮЧИТЕ ЭТО для запуска через ts-node:
+       ему нужно генерировать код в памяти, чтобы выполнить его */
+    "noEmit": false,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -21,5 +20,10 @@
   },
   "include": [
     "src/**/*"
-  ]
+  ],
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifiers": true
+    // Поможет с импортами без расширений
+  }
 }

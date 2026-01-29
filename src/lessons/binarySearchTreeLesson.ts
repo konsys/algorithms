@@ -318,7 +318,8 @@ export class BinarySearchTreeLesson<T extends number> {
     const nodes: T[] = [];
     this._inOrderTraversal(this.root, nodes);
 
-    this.root = this._buildBalancedTree(nodes, 0 as T, (nodes.length - 1) as T) ?? null;
+    // Передаем индексы как number
+    this.root = this._buildBalancedTree(nodes, 0, nodes.length - 1);
   }
 
   _inOrderTraversal(node: BSTNode<T> | null, array: T[]) {
@@ -329,15 +330,24 @@ export class BinarySearchTreeLesson<T extends number> {
     }
   }
 
-  _buildBalancedTree(elements: T[], start: T, end: T) {
+  // start и end теперь строго number
+  _buildBalancedTree(elements: T[], start: number, end: number): BSTNode<T> | null {
     if (start > end) {
       return null;
     }
 
     const mid = Math.floor((start + end) / 2);
-    const newNode = { value: elements[mid], left: null, right: null };
 
-    newNode.left = this._buildBalancedTree(elements, start, (mid - 1) as T) ?? null;
-    newNode.right = this._buildBalancedTree(elements, (mid + 1) as T, end) ?? null;
+    // Создаем узел (предполагается наличие конструктора или интерфейса)
+    const newNode: BSTNode<T> = {
+      value: elements[mid],
+      left: null,
+      right: null,
+    };
+
+    newNode.left = this._buildBalancedTree(elements, start, mid - 1);
+    newNode.right = this._buildBalancedTree(elements, mid + 1, end);
+
+    return newNode; // ОБЯЗАТЕЛЬНО возвращаем узел
   }
 }

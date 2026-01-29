@@ -314,13 +314,11 @@ describe('BinarySearchTree', () => {
   });
 
   test('delete Удаление последнего узла (очистка дерева)', () => {
-    const bst1 = new BinarySearchTreeLesson<number>();
-    [10, 5, 15, 3, 7, 12, 18].forEach((val) => bst1.insert(val));
+    const bst2 = new BinarySearchTreeLesson<number>();
+    [10, 5, 15, 3, 7, 12, 18].forEach((val) => bst2.insert(val));
 
-    bst1.printTreeIterative();
-
-    bst1.rebalance();
-    bst1.printTreeIterative();
-    expect(bst1.root?.value).toBe(10);
+    bst2.rebalance();
+    // bst2.printTreeIterative();
+    expect(bst2.root?.value).toBe(10);
   });
 });
