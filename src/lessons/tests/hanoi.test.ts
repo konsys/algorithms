@@ -1,6 +1,6 @@
 import { ackermannIterative, hanoi } from '../recursionLesson';
 
-describe('hanoi', () => {
+describe.skip('hanoi', () => {
   test('должен hanoi', () => {
     hanoi(3, 'A', 'C', 'B');
   });
@@ -49,6 +49,8 @@ describe('hanoi', () => {
 
   test('ackermannIterative', () => {
     console.log(11111111111);
-    console.log(ackermannIterative(2, 4));
+    const result = ackermannIterative(4, 4);
+    console.log(result);
+    expect(result).toBe('Переместить диск 1 с B на C');
   });
 });

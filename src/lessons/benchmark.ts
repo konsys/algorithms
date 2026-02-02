@@ -53,7 +53,7 @@ class BinarySearchTreeLesson<T> {
   }
 }
 
-function quickSort(arr: number[], left: number, right: number) {
+function quickSortBench(arr: number[], left: number, right: number) {
   if (left >= right) return;
   let pivot = arr[Math.floor((left + right) / 2)];
   let i = left,
@@ -67,8 +67,8 @@ function quickSort(arr: number[], left: number, right: number) {
       j--;
     }
   }
-  quickSort(arr, left, j);
-  quickSort(arr, i, right);
+  quickSortBench(arr, left, j);
+  quickSortBench(arr, i, right);
 }
 
 class AVLTree<T> extends BinarySearchTreeLesson<T> {

@@ -92,4 +92,20 @@ export const solveHanoi = async (n: number) => {
   console.log('Готово!');
 };
 
-solveHanoi(4);
+export const quickSort = (arr: number[]): number[] => {
+  // Базовый случай: массив из 0 или 1 элемента уже отсортирован
+  if (arr.length <= 1) {
+    return arr;
+  }
+
+  // Выбираем опорный элемент (пусть будет средний)
+  const pivot = arr[Math.floor(arr.length / 2)];
+
+  // Распределяем элементы по группам
+  const left = arr.filter((x) => x < pivot);
+  const middle = arr.filter((x) => x === pivot);
+  const right = arr.filter((x) => x > pivot);
+
+  // Рекурсивно сортируем лево и право, затем склеиваем
+  return [...quickSort(left), ...middle, ...quickSort(right)];
+};
