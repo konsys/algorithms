@@ -1,4 +1,4 @@
-class Graph<T> {
+class GraphClass<T> {
   // Список смежности: ключ — узел, значение — массив соседних узлов
   private adjacencyList: Map<T, T[]>;
 

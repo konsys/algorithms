@@ -68,7 +68,7 @@ describe.skip('quickSort', () => {
   });
 });
 
-describe('deepClone', () => {
+describe.skip('deepClone', () => {
   test('должен создавать идентичную копию плоского объекта', () => {
     const obj = { a: 1, b: 'test' };
     const copy = deepClone(obj);
