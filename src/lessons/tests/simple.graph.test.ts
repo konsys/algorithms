@@ -39,7 +39,7 @@ describe('SimpleGraph', () => {
     graph.addVertex('Moscow');
     console.log('\naddVertex Moscow');
     graph.show();
-    lm;
+    
     // 1. Подготовка данных
     graph.addEdge('Moscow', 'Piter');
     console.log('\naddEdge Moscow => Piter');
