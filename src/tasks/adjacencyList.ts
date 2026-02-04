@@ -104,6 +104,43 @@ class SimpleGraphEx {
     const neighbors = this.adjacencyList.get(vertex);
     return neighbors ? [...neighbors] : [];
   }
+
+  findShortestPath(start: string, end: string): string[] | null {
+    if (!this.hasVertex(start) || !this.hasVertex(end)) return null;
+
+    const queue: string[] = [start];
+    const visited = new Set<string>([start]);
+    const previous = new Map<string, string | null>(); // Для восстановления пути
+
+    previous.set(start, null);
+
+    while (queue.length > 0) {
+      const current = queue.shift()!;
+
+      if (current === end) {
+        // Собираем путь обратно от конца к началу
+        const path: string[] = [];
+        let temp: string | null = end;
+        while (temp !== null) {
+          path.push(temp);
+          temp = previous.get(temp) || null;
+        }
+        return path.reverse();
+      }
+
+      const neighbors = this.getVertex(current) || [];
+      for (const neighbor of neighbors) {
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor);
+          previous.set(neighbor, current);
+          queue.push(neighbor);
+        }
+      }
+    }
+
+    return null; // Путь не найден
+  }
+  
 }
 
 // Пример использования:

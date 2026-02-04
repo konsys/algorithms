@@ -111,4 +111,30 @@ describe('SimpleGraph: removeVertex', () => {
     expect(neighborsB).toContain('C');
     expect(neighborsB).not.toContain('A');
   });
+
+  test('должен находить кратчайший путь (самый короткий по количеству узлов)', () => {
+    // Длинный путь: Moscow -> Piter -> Murmansk (3 узла, 2 шага)
+    graph.addEdge('Moscow', 'Piter');
+    graph.addEdge('Piter', 'Murmansk');
+
+    // Короткий путь: Moscow -> Murmansk напрямую (2 узла, 1 шаг)
+    graph.addEdge('Moscow', 'Murmansk');
+
+    const path = graph.findShortestPath('Moscow', 'Murmansk');
+
+    // BFS обязан вернуть прямой путь, так как он короче
+    expect(path).toEqual(['Moscow', 'Murmansk']);
+  });
+
+  test('должен находить путь из 3 узлов, если путь из 2 невозможен', () => {
+    graph.addEdge('A', 'B');
+    graph.addEdge('B', 'C');
+    graph.addEdge('A', 'D');
+    graph.addEdge('D', 'E');
+    graph.addEdge('E', 'C');
+
+    // Путь A-B-C (длина 2) короче, чем A-D-E-C (длина 3)
+    const path = graph.findShortestPath('A', 'C');
+    expect(path).toEqual(['A', 'B', 'C']);
+  });
 });

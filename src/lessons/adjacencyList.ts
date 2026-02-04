@@ -93,4 +93,58 @@ export class SimpleGraph {
 
     this.vertex.delete(vertex);
   }
+
+  findShortestPath(start: string, end: string): string[] | null {
+    // 1. ПРОВЕРКА: Если одной из точек нет в графе, путь найти невозможно.
+    if (!this.hasVertex(start) || !this.hasVertex(end)) return null;
+
+    // 2. ОЧЕРЕДЬ (Queue): Хранит узлы, которые нужно посетить. Начинаем со старта.
+    const queue: string[] = [start];
+
+    // 3. ПОСЕЩЕННЫЕ (Visited): Чтобы не ходить кругами и не попадать в бесконечный цикл.
+    const visited = new Set<string>([start]);
+
+    // 4. КАРТА ПРЕДКОВ (Previous): Ключ — город, значение — откуда мы в него пришли.
+    // Это нужно, чтобы в конце "отмотать" путь назад.
+    const previous = new Map<string, string | null>();
+    previous.set(start, null); // У старта нет предка
+
+    // 5. ЦИКЛ: Работает, пока в очереди есть города.
+    while (queue.length > 0) {
+      // Извлекаем ПЕРВЫЙ элемент из очереди (shift)
+      const current = queue.shift()!;
+
+      // 6. УСПЕХ: Если текущий город — это цель, начинаем сборку пути.
+      if (current === end) {
+        const path: string[] = [];
+        let temp: string | null = end;
+
+        // Идем по цепочке предков от конца к началу
+        while (temp !== null) {
+          path.push(temp);
+          temp = previous.get(temp) || null;
+        }
+        return path.reverse(); // Разворачиваем, чтобы было [старт, ..., конец]
+      }
+
+      // 7. ПОИСК СОСЕДЕЙ: Смотрим, куда можно поехать из текущего города.
+      const neighbors = this.getVertex(current) || [];
+      for (const neighbor of neighbors) {
+        // Если мы в этом городе еще не были:
+        if (!visited.has(neighbor)) {
+          // Помечаем как посещенный
+          visited.add(neighbor);
+
+          // Запоминаем, что пришли сюда из current
+          previous.set(neighbor, current);
+
+          // Добавляем в конец очереди на проверку
+          queue.push(neighbor);
+        }
+      }
+    }
+
+    // 8. ПУСТОТА: Если очередь кончилась, а цель не найдена — пути нет.
+    return null;
+  }
 }
