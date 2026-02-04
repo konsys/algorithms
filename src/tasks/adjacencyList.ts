@@ -53,6 +53,35 @@ class SimpleGraphEx {
       this.adjacencyList.set(v2, list2.filter(neighbor => neighbor !== v1));
     }
   }
+
+  // Удаляет вершину (узел) и все связи, которые к ней ведут
+  removeVertex(vertex: string) {
+    // 1. Проверяем, есть ли такая вершина в нашем списке
+    if (!this.adjacencyList.has(vertex)) {
+      return; // Если вершины нет, ничего делать не нужно
+    }
+
+    // 2. Нам нужно "пройтись" по всем соседям этой вершины
+    // и удалить связь с удаляемой вершиной у них
+    const neighbors = this.adjacencyList.get(vertex);
+
+    if (neighbors) {
+      // Пока в массиве соседей кто-то есть...
+      while (neighbors.length) {
+        // Извлекаем последнего соседа из списка
+        const adjacentVertex = neighbors.pop();
+
+        // Если сосед существует, вызываем метод удаления связи (ребра)
+        if (adjacentVertex) {
+          // Этот метод удалит 'vertex' из списка связей соседа 'adjacentVertex'
+          this.removeEdge(vertex, adjacentVertex);
+        }
+      }
+    }
+
+    // 3. Когда все связи разорваны, окончательно удаляем саму вершину из Map
+    this.adjacencyList.delete(vertex);
+  }
 }
 
 // Пример использования:

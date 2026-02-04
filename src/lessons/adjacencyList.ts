@@ -10,7 +10,11 @@ const travelGraph: Graph = {
 };
 
 export class SimpleGraph {
-  adjacencyList: Map<string, string[]> = new Map();
+  private adjacencyList: Map<string, string[]> = new Map();
+
+  get vertex() {
+    return this.adjacencyList;
+  }
 
   // Добавляем новый узел (вершину)
   addVertex(vertex: string) {
@@ -56,5 +60,25 @@ export class SimpleGraph {
         list2.filter((neighbor) => neighbor !== v1)
       );
     }
+  }
+
+  removeVertex(vertex: string) {
+    if (!this.adjacencyList.has(vertex)) {
+      return;
+    }
+
+    const neighbors = this.adjacencyList.get(vertex);
+
+    if (neighbors) {
+      while (neighbors.length) {
+        const adjacentVertex = neighbors.pop();
+
+        if (adjacentVertex) {
+          this.removeEdge(vertex, adjacentVertex);
+        }
+      }
+    }
+
+    this.adjacencyList.delete(vertex);
   }
 }

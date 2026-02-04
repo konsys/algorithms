@@ -39,25 +39,12 @@ describe('SimpleGraph', () => {
     graph.addVertex('Moscow');
     console.log('\naddVertex Moscow');
     graph.show();
-
+    lm;
     // 1. Подготовка данных
     graph.addEdge('Moscow', 'Piter');
     console.log('\naddEdge Moscow => Piter');
     graph.show();
 
-    console.table(graph.adjacencyList);
-    // graph.addEdge('Moscow', 'Kazan');
-    //
-    // console.log('\n--- ДО УДАЛЕНИЯ ---');
-    // graph.show();
-    //
-    // // 2. Действие
-    // graph.removeEdge('Moscow', 'Piter');
-    //
-    // console.log('\n--- ПОСЛЕ УДАЛЕНИЯ (Moscow - Piter) ---');
-    // graph.show();
-    //
-    // // 3. Проверка
-    // expect(graph.hasEdge('Moscow', 'Piter')).toBe(false);
+    console.table(graph.vertex);
   });
 });
