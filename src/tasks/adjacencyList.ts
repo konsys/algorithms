@@ -82,6 +82,28 @@ class SimpleGraphEx {
     // 3. Когда все связи разорваны, окончательно удаляем саму вершину из Map
     this.adjacencyList.delete(vertex);
   }
+
+  hasVertex(vertex: string): boolean {
+    return this.adjacencyList.has(vertex);
+  }
+
+  /**
+   * Возвращает список всех соседей (связей) вершины.
+   * Если вершины не существует, возвращает null или undefined.
+   * @param vertex Название вершины
+   */
+  getVertex(vertex: string): string[] | undefined {
+    // Проверяем, существует ли вершина
+    if (!this.hasVertex(vertex)) {
+      console.error(`Ошибка: Вершина "${vertex}" не найдена.`);
+      return undefined;
+    }
+
+    // Возвращаем копию массива соседей, чтобы нельзя было
+    // случайно изменить данные графа извне напрямую
+    const neighbors = this.adjacencyList.get(vertex);
+    return neighbors ? [...neighbors] : [];
+  }
 }
 
 // Пример использования:

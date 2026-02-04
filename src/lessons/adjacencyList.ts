@@ -18,8 +18,8 @@ export class SimpleGraph {
 
   // Добавляем новый узел (вершину)
   addVertex(vertex: string) {
-    if (!this.adjacencyList.has(vertex)) {
-      this.adjacencyList.set(vertex, []);
+    if (!this.vertex.has(vertex)) {
+      this.vertex.set(vertex, []);
     }
   }
 
@@ -28,34 +28,46 @@ export class SimpleGraph {
     this.addVertex(start); // Гарантируем наличие старта
     this.addVertex(end); // Гарантируем наличие конца
 
-    this.adjacencyList.get(start)?.push(end);
-    this.adjacencyList.get(end)?.push(start);
+    this.vertex.get(start)?.push(end);
+    this.vertex.get(end)?.push(start);
   }
 
   show() {
     let output = '\n--- Состояние графа ---\n';
-    this.adjacencyList.forEach((neighbors, vertex) => {
+    this.vertex.forEach((neighbors, vertex) => {
       output += `${vertex} => ${neighbors.join(', ')}\n`;
     });
     console.log(output);
   }
 
   hasEdge(v1: string, v2: string): boolean {
-    return Boolean(this.adjacencyList.get(v1)?.includes(v2));
+    return Boolean(this.vertex.get(v1)?.includes(v2));
+  }
+
+  hasVertex(vertex: string): boolean {
+    return this.vertex.has(vertex);
+  }
+
+  getVertex(vertex: string): string[] | null {
+    if (!this.hasVertex(vertex)) {
+      return null;
+    }
+    const neighbors = this.vertex.get(vertex);
+    return neighbors ? [...neighbors] : [];
   }
 
   removeEdge(v1: string, v2: string) {
-    const list1 = this.adjacencyList.get(v1);
+    const list1 = this.vertex.get(v1);
     if (list1) {
-      this.adjacencyList.set(
+      this.vertex.set(
         v1,
         list1.filter((neighbor) => neighbor !== v2)
       );
     }
 
-    const list2 = this.adjacencyList.get(v2);
+    const list2 = this.vertex.get(v2);
     if (list2) {
-      this.adjacencyList.set(
+      this.vertex.set(
         v2,
         list2.filter((neighbor) => neighbor !== v1)
       );
@@ -63,11 +75,11 @@ export class SimpleGraph {
   }
 
   removeVertex(vertex: string) {
-    if (!this.adjacencyList.has(vertex)) {
+    if (!this.vertex.has(vertex)) {
       return;
     }
 
-    const neighbors = this.adjacencyList.get(vertex);
+    const neighbors = this.vertex.get(vertex);
 
     if (neighbors) {
       while (neighbors.length) {
@@ -79,6 +91,6 @@ export class SimpleGraph {
       }
     }
 
-    this.adjacencyList.delete(vertex);
+    this.vertex.delete(vertex);
   }
 }
