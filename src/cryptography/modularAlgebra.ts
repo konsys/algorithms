@@ -58,14 +58,13 @@ export class ModularAlgebra {
     let b = base % this.n;
     let e = exp;
     while (e > 0n) {
-      console.log(111111, base, exp, e, b, this.n);
       if (e % 2n === 1n) {
         result = (result * b) % this.n;
-        console.log('result', result);
       }
       b = (b * b) % this.n;
       e = e / 2n;
-      console.log('', b, e);
+      console.log('e', e);
+      console.log('b', b);
     }
     return result;
   }

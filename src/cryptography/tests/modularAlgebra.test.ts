@@ -25,8 +25,8 @@ describe('Modular Properties Verification', () => {
   });
 
   test('Свойство возведения в степень (3^4 mod 7)', () => {
-    algebra.power(10n, 10n);
-
+    const result = algebra.power(10n, 10n);
+    expect(result).toBe(4n);
     // Мы разбирали, что 3^4 mod 7 можно вычислить как (3^2)^2 mod 7
     // const step1 = algebra.power(3n, 2n); // 9 mod 7 = 2
     // const step2 = (step1 * step1) % n; // 2 * 2 = 4
