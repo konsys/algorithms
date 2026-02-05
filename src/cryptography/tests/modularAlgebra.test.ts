@@ -69,3 +69,48 @@ describe('ModularAlgebra.multiply', () => {
     expect(result).toBe(999999999999999998n);
   });
 });
+
+describe('ModularAlgebra.add', () => {
+  const n = 10n;
+  const algebra = new ModularAlgebra(n);
+
+  it('базовое сложение без перехода через модуль (3 + 4 mod 10 = 7)', () => {
+    expect(algebra.add(3n, 4n)).toBe(7n);
+  });
+
+  it('сложение с переходом через границу модуля (8 + 5 mod 10 = 3)', () => {
+    // 8 + 5 = 13; 13 % 10 = 3
+    expect(algebra.add(8n, 5n)).toBe(3n);
+  });
+
+  it('сложение чисел, которые уже больше модуля (14 + 17 mod 10 = 1)', () => {
+    // 14 + 17 = 31; 31 % 10 = 1
+    // Это подтверждает свойство: (a + b) mod n === (a mod n + b mod n) mod n
+    expect(algebra.add(14n, 17n)).toBe(1n);
+  });
+
+  it('сложение с нулем (нейтральный элемент)', () => {
+    expect(algebra.add(7n, 0n)).toBe(7n);
+    expect(algebra.add(0n, 0n)).toBe(0n);
+  });
+
+  it('корректная работа с BigInt (выход за пределы 64-бит)', () => {
+    const hugeMod = new ModularAlgebra(10n ** 20n); // Модуль с 20 нулями
+    const a = 10n ** 20n - 5n; // Число почти равное модулю
+    const b = 10n;
+    // (a + b) должно быть 5, так как произойдет "оборот" вокруг модуля
+    expect(hugeMod.add(a, b)).toBe(5n);
+  });
+
+  it('подтверждение свойства: (a + b) mod n === ((a mod n) + (b mod n)) mod n', () => {
+    const a = 123456789n;
+    const b = 987654321n;
+    const nCustom = 13n;
+    const customAlgebra = new ModularAlgebra(nCustom);
+
+    const directSum = customAlgebra.add(a, b);
+    const splitSum = customAlgebra.add(a % nCustom, b % nCustom);
+
+    expect(directSum).toBe(splitSum);
+  });
+});
