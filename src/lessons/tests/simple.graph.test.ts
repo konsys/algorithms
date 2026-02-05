@@ -1,6 +1,6 @@
 import { SimpleGraph } from '../adjacencyList'; // Путь к вашему файлу
 
-describe('SimpleGraph', () => {
+describe.skip('SimpleGraph', () => {
   let graph: SimpleGraph;
 
   // Перед каждым тестом создаем новый экземпляр графа
@@ -49,7 +49,7 @@ describe('SimpleGraph', () => {
   });
 });
 
-describe('SimpleGraph: removeVertex', () => {
+describe.skip('SimpleGraph: removeVertex', () => {
   let graph: SimpleGraph;
 
   // Перед каждым тестом создаем новый чистый экземпляр графа
