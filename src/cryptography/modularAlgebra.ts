@@ -3,7 +3,7 @@
  * Все операции проводятся внутри кольца по модулю N.
  */
 export class ModularAlgebra {
-  public readonly n: bigint;
+  private readonly n: bigint;
 
   constructor(modulus: bigint) {
     if (modulus <= 0n) throw new Error('Модуль должен быть положительным');
@@ -32,11 +32,11 @@ export class ModularAlgebra {
     return direct === property;
   }
 
+  // --- Статические методы для демонстрации свойств (на любом модуле) ---
+
   public add(a: bigint, b: bigint): bigint {
     return (a + b) % this.n;
   }
-
-  // --- Статические методы для демонстрации свойств (на любом модуле) ---
 
   public multiply(a: bigint, b: bigint): bigint {
     return (a * b) % this.n;
@@ -66,6 +66,32 @@ export class ModularAlgebra {
       console.log('e', e);
       console.log('b', b);
     }
+    return result;
+  }
+
+  /**
+   * Вычисляет (base^exponent) % modulus
+   * Использует алгоритм возведения в квадрат для эффективности.
+   */
+  power1(base: bigint, exponent: bigint): bigint {
+    if (this.n === 0n) throw new Error('Модуль не может быть нулем');
+    if (this.n === 1n) return 0n;
+
+    let result = 1n;
+    // Приводим основание к положительному остатку
+    base = base % this.n;
+
+    while (exponent > 0n) {
+      // Если степень нечетная, умножаем результат на текущее основание
+      if (exponent % 2n === 1n) {
+        result = (result * base) % this.n;
+      }
+
+      // Возводим основание в квадрат и делим степень пополам
+      base = (base * base) % this.n;
+      exponent = exponent / 2n;
+    }
+
     return result;
   }
 }

@@ -124,3 +124,59 @@ describe('ModularAlgebra.add', () => {
     expect(() => algebra.add(5n, 10)).toThrow();
   });
 });
+
+describe('ModularAlgebra.power1', () => {
+  // Тест 1: Базовый случай (маленькие числа)
+  test('должен правильно вычислять 2^3 mod 5 = 3', () => {
+    const algebra = new ModularAlgebra(5n);
+    expect(algebra.power1(2n, 3n)).toBe(3n);
+  });
+
+  // Тест 2: Степень 0
+  test('любое число в степени 0 должно давать 1 (кроме mod 1)', () => {
+    const algebra = new ModularAlgebra(13n);
+    expect(algebra.power1(7n, 0n)).toBe(1n);
+  });
+
+  // Тест 3: Основание больше модуля
+  test('должен корректно работать, если основание > модуля (12^2 mod 10)', () => {
+    const algebra = new ModularAlgebra(10n);
+    // 144 % 10 = 4, так же как и 2^2 % 10
+    expect(algebra.power1(12n, 2n)).toBe(4n);
+  });
+
+  // Тест 4: Работа с большими числами (BigInt)
+  test('должен вычислять большие степени (пример из RSA)', () => {
+    const algebra = new ModularAlgebra(3233n);
+    const base = 123n;
+    const exp = 17n;
+    // 123^17 mod 3233 вычисляется быстро и точно
+    expect(typeof algebra.power1(base, exp)).toBe('bigint');
+    expect(algebra.power1(base, exp)).toBe(855n);
+  });
+
+  // Тест 5: Математическое свойство (7^100 mod 10)
+  test('проверка цикличного свойства (7^100 mod 10 = 1)', () => {
+    const algebra = new ModularAlgebra(10n);
+    expect(algebra.power1(7n, 100n)).toBe(1n);
+  });
+
+  // Тест 6: Крайний случай - Модуль 1
+  test('при модуле 1 всегда должен возвращаться 0', () => {
+    const algebra = new ModularAlgebra(1n);
+    expect(algebra.power1(10n, 5n)).toBe(0n);
+  });
+
+  // Тест 7: Большое основание и большая степень
+  test('проверка очень больших значений', () => {
+    const mod = 1000000007n; // Частое простое число в олимпиадах
+    const algebra = new ModularAlgebra(mod);
+    const base = 987654321n;
+    const exp = 123456789n;
+
+    expect(() => algebra.power1(base, exp)).not.toThrow();
+    const result = algebra.power1(base, exp);
+    expect(result).toBeLessThan(mod);
+    expect(result).toBeGreaterThanOrEqual(0n);
+  });
+});
