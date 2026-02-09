@@ -63,8 +63,6 @@ export class ModularAlgebra {
       }
       b = (b * b) % this.n;
       e = e / 2n;
-      console.log('e', e);
-      console.log('b', b);
     }
     return result;
   }
@@ -91,6 +89,38 @@ export class ModularAlgebra {
       base = (base * base) % this.n;
       exponent = exponent / 2n;
     }
+
+    return result;
+  }
+
+  public powerWithTrace(base: bigint, exponent: bigint): bigint {
+    if (this.n === 0n) throw new Error('Модуль не может быть нулем');
+    if (this.n === 1n) return 0n;
+
+    let result = 1n;
+
+    // Исправление: (base % n + n) % n гарантирует положительный остаток
+    // Например, если base = -2n, а n = 5n, то результат будет 3n.
+    let b = ((base % this.n) + this.n) % this.n;
+    let e = exponent;
+
+    const logs: string[] = [`Начало: ${base}^${exponent} mod ${this.n}`];
+
+    while (e > 0n) {
+      if (e % 2n === 1n) {
+        result = (result * b) % this.n;
+        logs.push(`Степень нечетная (${e}): result = ${result} b = ${b}`);
+      } else {
+        logs.push(`Степень четная (${e}): result без изменений`);
+      }
+
+      b = (b * b) % this.n;
+      e = e / 2n;
+      logs.push(`  -> Новая база: ${b}, Остаток степени: ${e}`);
+    }
+
+    // Выводим все логи одной группой для Jest
+    console.log(logs.join('\n'));
 
     return result;
   }

@@ -179,4 +179,13 @@ describe('ModularAlgebra.power1', () => {
     expect(result).toBeLessThan(mod);
     expect(result).toBeGreaterThanOrEqual(0n);
   });
+
+  test('проверка powerWithTrace', () => {
+    const mod = 10n; // Частое простое число в олимпиадах
+    const algebra = new ModularAlgebra(mod);
+    const base = 11n;
+    const exp = 21n;
+    algebra.powerWithTrace(base, exp);
+    // expect(() => algebra.powerWithTrace(base, exp)).toBe(10n);
+  });
 });
