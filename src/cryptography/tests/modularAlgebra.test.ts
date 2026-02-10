@@ -183,8 +183,8 @@ describe('ModularAlgebra.power1', () => {
   test('проверка powerWithTrace', () => {
     const mod = 10n; // Частое простое число в олимпиадах
     const algebra = new ModularAlgebra(mod);
-    const base = 11n;
-    const exp = 21n;
+    const base = 7n;
+    const exp = 5n;
     algebra.powerWithTrace(base, exp);
     // expect(() => algebra.powerWithTrace(base, exp)).toBe(10n);
   });
