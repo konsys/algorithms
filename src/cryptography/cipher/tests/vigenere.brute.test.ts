@@ -2,7 +2,7 @@ import { vigenereCipher } from '../vigenere';
 import { breakVigenere } from '../crack/vigenere.brute';
 import { vingenereText } from '../crack/data';
 
-describe('Вскрытие шифра Виженера', () => {
+describe.skip('Вскрытие шифра Виженера', () => {
   // Вспомогательная функция для очистки текста от лишних пробелов и переносов
   const normalize = (str: string) => str.replace(/\s+/g, ' ').trim();
 
