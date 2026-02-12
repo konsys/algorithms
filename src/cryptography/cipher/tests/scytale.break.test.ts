@@ -1,8 +1,8 @@
-import { scytaleCipher } from '../../scytale';
+import { scytaleCipher } from '../scytale';
 import { breakScytale } from '../crack/scytale.break';
 
-describe('Scytale Cracker (Взломщик)', () => {
-  test.skip('должен автоматически найти ключ и расшифровать фразу', () => {
+describe.skip('Scytale Cracker (Взломщик)', () => {
+  test('должен автоматически найти ключ и расшифровать фразу', () => {
     // 1. Берем осмысленную фразу (обязательно с частыми словами типа THE)
     const secretMessage = 'THE ATTACK IS AT DAWN AND THE COFFEE IS READY';
     const originalKey = 5;

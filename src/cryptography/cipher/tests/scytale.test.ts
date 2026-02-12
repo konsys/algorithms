@@ -1,4 +1,4 @@
-import { scytaleCipher } from '../../scytale';
+import { scytaleCipher } from '../scytale';
 
 describe.skip('Scytale Cipher', () => {
   test('должен корректно шифровать строку (пример из учебника)', () => {

@@ -1,4 +1,4 @@
-import { scytaleCipher } from '../../scytale';
+import { scytaleCipher } from '../scytale';
 
 /**
  * Автоматический взлом шифра Сцитала
