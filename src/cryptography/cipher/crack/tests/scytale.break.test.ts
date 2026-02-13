@@ -1,5 +1,5 @@
-import { scytaleCipher } from '../scytale';
-import { breakScytale } from '../crack/scytale.break';
+import { scytaleCipher } from '../../scytale';
+import { breakScytale } from '../scytale.break';
 
 describe.skip('Scytale Cracker (Взломщик)', () => {
   test('должен автоматически найти ключ и расшифровать фразу', () => {

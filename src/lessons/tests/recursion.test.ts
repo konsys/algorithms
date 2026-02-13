@@ -2,7 +2,7 @@ import { deepClone, factorial, fibonacci } from '../recursionLesson';
 import { quickSort } from '../../tasks/resursion';
 
 describe.skip('Рекурсивные алгоритмы', () => {
-  describe('factorial', () => {
+  describe.skip('factorial', () => {
     test('должен возвращать 1 для 0 и 1', () => {
       expect(factorial(0)).toBe(1);
       expect(factorial(1)).toBe(1);

@@ -1,6 +1,6 @@
-import { vigenereCipher } from '../vigenere';
-import { breakVigenere } from '../crack/vigenere.brute';
-import { vingenereText } from '../crack/data';
+import { vigenereCipher } from '../../vigenere';
+import { breakVigenere } from '../vigenere.brute';
+import { vingenereText } from '../data';
 
 describe.skip('Вскрытие шифра Виженера', () => {
   // Вспомогательная функция для очистки текста от лишних пробелов и переносов

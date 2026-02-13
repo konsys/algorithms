@@ -1,5 +1,5 @@
-import { breakCaesarBruteForce, breakCaesarFrequency } from '../crack/caesar.brute';
-import { caesarCipher } from '../caesar';
+import { breakCaesarBruteForce, breakCaesarFrequency } from '../caesar.brute';
+import { caesarCipher } from '../../caesar';
 
 describe.skip('Вскрытие шифра Цезаря: Частотный анализ', () => {
   test('должен автоматически определить ключ на длинном тексте', () => {
