@@ -4,11 +4,15 @@
  */
 
 export class FeistelCipher {
+  // Константы SHA-256 (первые 8 штук)
+  private static readonly SHA256_K = [
+    0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+  ];
   private rounds: number;
   private roundKeys: number[];
 
   constructor(mainKey: number, rounds: number = 8) {
-    this.rounds = rounds;
+    this.rounds = Math.min(rounds, FeistelCipher.SHA256_K.length); // Ограничим количеством констант
     this.roundKeys = this.generateRoundKeys(mainKey);
   }
 
@@ -22,15 +26,12 @@ export class FeistelCipher {
     return this.process(left, right, reversedKeys);
   }
 
-  /**
-   * Генерация ключей для каждого раунда (Key Schedule).
-   * В реальных шифрах (как DES) это сложный процесс.
-   */
   private generateRoundKeys(mainKey: number): number[] {
     const keys: number[] = [];
     for (let i = 0; i < this.rounds; i++) {
-      // Простейшая генерация: каждый ключ раунда — производное от основного
-      keys.push((mainKey + i * 0xdeadbeef) >>> 0);
+      // Смешиваем основной ключ с "Nothing-up-my-sleeve" числом
+      // Используем XOR для лучшей диффузии
+      keys.push((mainKey ^ FeistelCipher.SHA256_K[i]) >>> 0);
     }
     return keys;
   }

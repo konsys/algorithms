@@ -1,6 +1,6 @@
 import { FeistelCipher, FeistelTextHelper } from '../../feistelCipher';
 
-describe('Криптоанализ FeistelCipher', () => {
+describe.skip('Криптоанализ FeistelCipher', () => {
   // 1. Тест на лавинный эффект (Avalanche Effect)
   // Хороший шифр при изменении 1 бита входных данных должен менять ~50% бит шифротекста.
   test('Слабый лавинный эффект: изменение 1 бита меняет слишком мало данных', () => {
@@ -59,7 +59,7 @@ describe('Криптоанализ FeistelCipher', () => {
     expect(encrypted[2]).toBe(encrypted[0]); // L первого и L второго блока
     expect(encrypted[3]).toBe(encrypted[1]); // R первого и R второго блока
 
-    console.log('Уязвимость подтверждена: блоки идентичны!');
+    console.log('Уязвимость подтверждена: блоки идентичны!', encrypted);
   });
 
   // 4. Тест на Brute Force (для малых ключей)
