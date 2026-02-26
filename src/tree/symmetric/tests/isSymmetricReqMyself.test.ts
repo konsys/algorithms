@@ -1,5 +1,5 @@
-import { isSymmetricStack } from '../lessons/isSymmetricStackLesson';
 import { TreeNode } from '../symmetricTree';
+import { isSymmetricStackMyself } from '../lessons/isSymmetricStackMyself';
 
 // Вспомогательная функция для создания дерева из массива [1, 2, 2, null, 3...]
 function createTree(arr: (number | null)[]): TreeNode | null {
@@ -16,34 +16,34 @@ function createTree(arr: (number | null)[]): TreeNode | null {
   return nodes[0];
 }
 
-describe.skip('Symmetric Tree', () => {
+describe('Symmetric Tree', () => {
   test('Example 1: Symmetric tree [1,2,2,3,4,4,3] should return true', () => {
     const root = createTree([1, 2, 2, 3, 4, 4, 3]);
-    expect(isSymmetricStack(root)).toBe(true);
+    expect(isSymmetricStackMyself(root)).toBe(true);
   });
 
   test('Example 2: Asymmetric tree [1,2,2,null,3,null,3] should return false', () => {
     const root = createTree([1, 2, 2, null, 3, null, 3]);
-    expect(isSymmetricStack(root)).toBe(false);
+    expect(isSymmetricStackMyself(root)).toBe(false);
   });
 
   test('Empty tree should return true', () => {
-    expect(isSymmetricStack(null)).toBe(true);
+    expect(isSymmetricStackMyself(null)).toBe(true);
   });
 
   test('Single node tree should return true', () => {
     const root = new TreeNode(1);
-    expect(isSymmetricStack(root)).toBe(true);
+    expect(isSymmetricStackMyself(root)).toBe(true);
   });
 
   test('Tree with different values should return false', () => {
     const root = createTree([1, 2, 3]); // Слева 2, справа 3
-    expect(isSymmetricStack(root)).toBe(false);
+    expect(isSymmetricStackMyself(root)).toBe(false);
   });
 
   test('Deep asymmetric tree should return false', () => {
     // Структура, где зеркальность нарушена на большой глубине
     const root = createTree([1, 2, 2, 3, 4, 4, 5]);
-    expect(isSymmetricStack(root)).toBe(false);
+    expect(isSymmetricStackMyself(root)).toBe(false);
   });
 });
