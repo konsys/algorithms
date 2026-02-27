@@ -40,6 +40,8 @@ newHead = slow.next (находим новое начало).
  *
  * СЛОЖНОСТЬ: Time O(N), Space O(1).
  */
+import { ListNode } from './lessons/rotateList';
+
 /**
  * ПРИМЕР РАБОТЫ МЕТОДА ДВУХ УКАЗАТЕЛЕЙ:
  * Вход: head = [1, 2, 3, 4, 5], k = 2
@@ -64,3 +66,38 @@ newHead = slow.next (находим новое начало).
  *
  * Итог: [4] -> [5] -> [1] -> [2] -> [3] -> null
  */
+function rotateRightTwoPointers(head: ListNode | null, k: number): ListNode | null {
+  if (!head || !head.next || k === 0) return head;
+
+  // Сначала все равно нужно узнать длину, чтобы обработать k > length
+  let length = 1;
+  let temp: ListNode = head;
+  while (temp.next) {
+    temp = temp.next;
+    length++;
+  }
+
+  k = k % length;
+  if (k === 0) return head;
+
+  let fast: ListNode = head;
+  let slow: ListNode = head;
+
+  // 1. Уводим fast на k шагов вперед
+  for (let i = 0; i < k; i++) {
+    fast = fast.next!;
+  }
+
+  // 2. Двигаем оба, пока fast не упрется в хвост
+  while (fast.next) {
+    fast = fast.next;
+    slow = slow.next!;
+  }
+
+  // 3. Перестраиваем указатели
+  let newHead = slow.next;
+  fast.next = head; // Соединяем конец с началом
+  slow.next = null; // Разрезаем в нужном месте
+
+  return newHead;
+}
