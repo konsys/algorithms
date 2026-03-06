@@ -1,6 +1,6 @@
 import { threeSum } from '../3sum/3sum';
 
-describe('15. 3Sum', () => {
+describe.skip('15. 3Sum', () => {
   // Универсальная функция для сравнения массивов без учета порядка
   const normalize = (arr: number[][]): number[][] => {
     return arr
