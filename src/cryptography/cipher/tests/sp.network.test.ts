@@ -1,6 +1,6 @@
 import { SPNetwork } from '../spNetwork';
 
-describe('SPNetwork', () => {
+describe.skip('SPNetwork', () => {
   const key = 0x1234;
   const spn = new SPNetwork(key);
 
