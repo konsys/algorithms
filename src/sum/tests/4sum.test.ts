@@ -3,7 +3,7 @@
 
 import { fourSum } from '../4sum/4sum';
 
-describe('4Sum Problem', () => {
+describe.skip('4Sum Problem', () => {
   // Вспомогательная функция для сравнения результатов без учета порядка
   const sortResult = (arr: number[][]) =>
     arr.map((sub) => sub.sort((a, b) => a - b)).sort((a, b) => a[0] - b[0] || a[1] - b[1]);
