@@ -1,29 +1,40 @@
+/**
+ * @file tsconfig.json
+ * @description Полная конфигурация для React (TSX) и поддержки паттернов.
+ */
 {
   "compilerOptions": {
+    /* Основные настройки */
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "Bundler",
-    /* 1. ОТКЛЮЧИТЕ ЭТО: ts-node не умеет работать с этой опцией */
-    "allowImportingTsExtensions": false,
-    /* 2. ОТКЛЮЧИТЕ ЭТО для запуска через ts-node:
-       ему нужно генерировать код в памяти, чтобы выполнить его */
-    "noEmit": false,
-    "strict": true,
-    "esModuleInterop": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": true,
     "skipLibCheck": true,
+
+    /* Исправление TS17004 и TS7026 (JSX ошибки) */
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler", // Или "node" для старых сред
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+
+    /* Строгость и безопасность */
+    "strict": true,
+    "noImplicitAny": true, // Убирает неявные any (TS7006)
+    "strictNullChecks": true,
+
+    /* Совместимость с библиотеками (React, Jest) */
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "types": [
-      "jest",
-      "node"
-    ],
-    "outDir": "./dist"
+    "noEmit": false, // Позволяет ts-node работать корректно
+
+    "outDir": "./dist",
+    "types": ["node", "jest", "react", "react-dom",
+      "@testing-library/jest-dom"]
   },
-  "include": [
-    "src/**/*"
-  ],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"],
   "ts-node": {
     "esm": true,
     "experimentalSpecifiers": true
-    // Поможет с импортами без расширений
   }
 }
