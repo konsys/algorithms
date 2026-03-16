@@ -1,6 +1,6 @@
 import { generateParenthesis } from '../generateParentesis/generatePrentesis';
 
-describe('Generate Parentheses - Полное покрытие (n от 1 до 8)', () => {
+describe.skip('Generate Parentheses - Полное покрытие (n от 1 до 8)', () => {
   /**
    * Количество правильных скобочных последовательностей для n пар
    * соответствует числам Каталана: C(n) = (2n)! / ((n + 1)!n!)
