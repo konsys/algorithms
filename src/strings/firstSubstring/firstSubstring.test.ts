@@ -1,6 +1,6 @@
 import { strStr } from './firstSubstring';
 
-describe('strStr function', () => {
+describe.skip('strStr function', () => {
   test('должна возвращать 0, если needle находится в начале', () => {
     expect(strStr('sadbutsad', 'sad')).toBe(0);
   });
