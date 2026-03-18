@@ -30,7 +30,7 @@ abstract class Logistic {
  * @pattern Builder (Строитель)
  * @description Позволяет создавать сложные объекты пошагово (например, конструктор запросов или пиццы).
  */
-class PizzaBuilder {
+class PizzaBuilderEx {
   private ingredients: string[] = [];
 
   /** @param ingredient Название ингредиента */
