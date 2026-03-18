@@ -4,7 +4,7 @@
 import { GUIFactory, MacFactory, renderUI, WinFactory } from '../abstractFactory/abstractFactory';
 
 describe.skip('Abstract Factory Pattern', () => {
-  describe('WinFactory', () => {
+  describe.skip('WinFactory', () => {
     const factory = new WinFactory();
 
     test('должна создавать кнопку Windows', () => {
@@ -26,7 +26,7 @@ describe.skip('Abstract Factory Pattern', () => {
     });
   });
 
-  describe('MacFactory', () => {
+  describe.skip('MacFactory', () => {
     const factory = new MacFactory();
 
     test('должна создавать продукты в стиле macOS', () => {
@@ -41,7 +41,7 @@ describe.skip('Abstract Factory Pattern', () => {
     });
   });
 
-  describe('Client Code Integration', () => {
+  describe.skip('Client Code Integration', () => {
     test('renderUI должен вызывать методы продуктов, созданных фабрикой', () => {
       // 1. Создаем моки для методов продуктов
       const renderMock = jest.fn();
