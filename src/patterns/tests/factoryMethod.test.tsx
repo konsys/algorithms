@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import {
   AndroidFactory, FactoryContext, IOSFactory, MyForm, UIFactory,
-} from '../../creational/factoryMethod/factoryMethod.react';
+} from '../creational/factoryMethod/factoryMethod.react';
 /**
  * @description Тестирование паттерна "Абстрактная фабрика"
  * Проверяем, что фабрики возвращают компоненты с ожидаемым поведением.

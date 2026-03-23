@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { AuthService } from '../../creational/singleton/singleton.react';
+import { AuthService } from '../creational/singleton/singleton.react';
 
 describe.skip('AuthService Singleton: Corner Cases', () => {
   // Вспомогательный метод для сброса синглтона между тестами,
