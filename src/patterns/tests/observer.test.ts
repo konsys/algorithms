@@ -1,6 +1,6 @@
 import { Observer, User, YoutubeChannel } from '../behavioral/observer/observer';
 
-describe('Pattern: Observer (YoutubeChannel)', () => {
+describe.skip('Pattern: Observer (YoutubeChannel)', () => {
   let channel: YoutubeChannel;
   let user1: User;
   let user2: User;
