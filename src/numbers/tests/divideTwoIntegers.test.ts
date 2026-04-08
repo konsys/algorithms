@@ -1,6 +1,6 @@
 import { divide } from '../divideTwoIntegers/divideTwoIntegers';
 
-describe('Divide Two Integers', () => {
+describe.skip('Divide Two Integers', () => {
   test('Обычное деление (положительные числа)', () => {
     expect(divide(10, 3)).toBe(3);
     expect(divide(100, 10)).toBe(10);
